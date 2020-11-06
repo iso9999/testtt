@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org"
+	  xmlns:layout="http://www.ultrag.net.nz/thymeleaf/layout"
+	  layout:decorator="layout">
+	<head>
+		
+
+		<!-- Basic -->
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+		<title>LBLAN : (:Client Name Here:)</title>
+
+		<meta name="keywords" content="HTML5 Template" />
+		<meta name="description" content="Porto - Responsive HTML5 Template">
+		<meta name="author" content="okler.net">
+		
+		<script th:src="@{/js/sockjs.min.js}" type="text/javascript"></script>
+		<script th:src=@{/js/stomp.min.js} type="text/javascript"></script>
+		<script type="text/javascript" th:src="@{/js/angular.min.js}"></script>
+		<script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
+		<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.css">
+    	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.18/css/dataTables.bootstrap4.min.css">
+		<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.css">
+		<link href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap4.min.css">
+		<!-- Favicon -->
+		<link rel="shortcut icon" th:href="@{/img/favicon.ico}" type="image/x-icon" />
+		<link rel="apple-touch-icon" th:href="@{/img/apple-touch-icon.png}">
+
+		<!-- Mobile Metas -->
+		<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<!-- Web Fonts  -->
+		<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800%7CShadows+Into+Light" rel="stylesheet" type="text/css">
+
+		<!-- Vendor CSS -->
+		<link rel="stylesheet" th:href="@{/vendor/bootstrap/css/bootstrap.min.css}">
+		<link rel="stylesheet" th:href="@{/vendor/font-awesome/css/font-awesome.min.css}">
+		<link rel="stylesheet" th:href="@{/vendor/animate/animate.min.css}">
+		<link rel="stylesheet" th:href="@{/vendor/simple-line-icons/css/simple-line-icons.min.css}">
+		<link rel="stylesheet" th:href="@{/vendor/owl.carousel/assets/owl.carousel.min.css}">
+		<link rel="stylesheet" th:href="@{/vendor/owl.carousel/assets/owl.theme.default.min.css}">
+		<link rel="stylesheet" th:href="@{/vendor/magnific-popup/magnific-popup.min.css}">
+
+		<!-- Theme CSS -->
+		<link rel="stylesheet" th:href="@{/css/theme.css}">
+		<link rel="stylesheet" th:href="@{/css/theme-elements.css}">
+		<link rel="stylesheet" th:href="@{/css/theme-blog.css}">
+		<link rel="stylesheet" th:href="@{/css/theme-shop.css}">
+
+		<!-- Current Page CSS -->
+		<link rel="stylesheet" th:href="@{/vendor/rs-plugin/css/settings.css}">
+		<link rel="stylesheet" th:href="@{/vendor/rs-plugin/css/layers.css}">
+		<link rel="stylesheet" th:href="@{/vendor/rs-plugin/css/navigation.css}">
+		<link rel="stylesheet" th:href="@{/vendor/circle-flip-slideshow/css/component.css}">
+
+		<!-- Skin CSS -->
+		<link rel="stylesheet" th:href="@{/css/skins/default.css}">
+
+		<!-- Theme Custom CSS -->
+		<link rel="stylesheet" th:href="@{/css/custom.css}">
+		<link rel="stylesheet" th:href="@{/css/post.css}">
+
+		<!-- Head Libs -->
+		<script th:src="@{/vendor/modernizr/modernizr.min.js}"></script>
+
+	</head>
+	<body  ng-app="myApp" ng-controller="propCtrl" th:attr="ng-init='init(\''+${poste.idPoste}+'\');'">
+		<div class="body" ng-controller="homeCtrl" th:attr="ng-init='init(\''+${offreur.idOffreur}+'\',\''+${offreur.users.username}+'\');'">
+			<header th:replace="FREELANCER/fragments/header :: header"></header>
+			<div role="main" class="main" >
+				<section class="page-header">
+					<div class="container">
+						<div class="row">
+							<div class="col-md-12">
+								<ul class="breadcrumb">
+									<li><a href="#">Home</a></li>
+									<li class="active">Open Projects</li>
+								</ul>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-12">
+								<h1>Open Projects</h1>
+							</div>
+						</div>
+					</div>
+				</section>
+				<div class="container containerTable">
+					<div class="row">
+						<div class="col-md-6">
+							<table class="table tableInfo">
+								<tr>
+									<td>Nbr Proposition</td>
+									<td>Budget</td>
+									<td>Period</td>
+								</tr>
+								<tr>
+									<td th:text="${#lists.size(propositions)}" style="font-weight: bold; color: #0088cc;"></td>
+									<td th:text="${poste.prixMinPoste}+'Dh - '+${poste.prixMaxPoste}+'Dh'" style="font-weight: bold; color: #0088cc;">></td>
+									<td th:text="${poste.DureeMinPoste}+'-'+${poste.DureeMaxPoste}+${poste.typePeriod}" style="font-weight: bold; color: #0088cc;">></td>
+								</tr>
+							</table>
+						</div>
+						<div class="col-md-4" ></div>
+						<div class="col-md-2" th:if="!${test}">
+							<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" style="font-size: 1.6rem;margin-top: 16%;margin-bottom: 16%;">
+							    Propose
+							</button>
+						</div>
+					</div>
+				</div>
+				<div class="container containerTable">
+					<div  class="row">
+						<div class="col-md-12">
+							<h2><strong>About Client</strong></h2>
+						</div>
+					</div>
+					<div class="row" style="margin-bottom: 20px;">
+						<div class="col-md-2 image">
+							<img th:src="@{${client.image.urlImage}}">
+						</div>
+						<div class="col-md-8 info">
+							<div class="row"><div class="col-md-12"><a th:href="@{/FREELANCER/profileCLient(username=${client.users.username})}"><h4 style="font-weight: bold; color: #0088cc;" th:text="${client.nomClient}+' '+${client.prenomClient}"></h4></a></div></div>
+							<div class="row"><div class="col-md-12"><h4 th:text="'Morocco, '+${client.villeClient}"></h4></div></div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12 title">
+							<h2 style="margin-bottom: 6px;"><strong>Description Project</strong></h2>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12 descrip">
+							<p th:text="${poste.descreptionPoste}"></p>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12 title" >
+							<h2 style="margin-bottom: 6px;"><strong>Skills Required</strong></h2>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12 skills" >
+							<p><span th:each="s:${poste.services}" th:text="${s.libelleService}+' '"></span></p>
+						</div>
+					</div>
+				</div>
+				<div class="container containerTableBiding">
+					<div class="row">
+						<div class="col-md-12">
+							<table id="example" class="table" style="width:100%;  margin-top: 0px!important; text-align: center!important;">
+							<thead style="color: azure; background-color: dodgerblue;">
+					            <tr>
+					                <th>FREELANCER</th>
+					                <th class="vide"></th>
+									<th>PERIOD</th>
+									<th>PRICE</th>
+					            </tr>
+					        </thead>
+					        <tbody class="tbody">
+					           <tr th:each="prop : ${propositions}">
+									<td style="text-align: left;">
+									    <div>
+									      <a href="#" >
+									        	<img class="img-prop" th:src="@{${prop.pk.offreur.image.urlImage}}" alt="" height="76px" width="59px" style="float:  left; margin-right: 8px;">
+									      </a>
+																
+										<div style="float:  left;">
+											<p style="color: #0088cc; margin-bottom: 0px;"><strong><span th:text="${prop.pk.offreur.nomOffreur}"></span> <span th:text="${prop.pk.offreur.prenomOffreur}"></span></strong></p>
+										        <p style="margin-bottom: 0px; ">Morocco, <span th:text="${prop.pk.offreur.villeOffreur}"></span></p>
+										</div>
+									   </div>
+									</td>
+									<td style="width: 51%;"></td>   		
+									<td>
+									    <span th:text="${prop.dureeProposition}"></span>
+									</td>
+									<td>
+									    <span th:text="${prop.prix}"></span>DH
+									</td>
+								</tr>
+					        </tbody>
+						</table>
+						</div>
+					</div>
+				</div>
+
+				
+
+			</div>
+			<footer th:replace="CLIENT/fragments/footer :: footer"></footer>
+		</div>
+		
+			<div class="modal" id="myModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Propose</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        
+        <!-- Modal body -->
+        <div class="modal-body">
+          <form class="form-horizontal">
+				<fieldset>
+
+				<!-- Appended Input-->
+				<div class="form-group">
+				  <label class="col-md-4 control-label" for="price">The Price</label>
+				  <div class="col-md-5">
+				    <div class="input-group">
+				      <input id="price" name="price" size="7" class="form-control"  type="number" ng-model="price">
+				      <span class="input-group-addon" style="width: 20%"><strong>Dh</strong></span>
+				    </div>
+				  </div>
+				</div>
+				<!-- Appended Input-->
+				<div class="form-group">
+				  <label class="col-md-4 control-label" for="period">Period</label>
+				  <div class="col-md-5">
+				    <div class="input-group">
+				      <input id="period" name="period" class="form-control" type="number" ng-model="period">
+				      <span class="input-group-addon" style="width: 20%"><strong>Days</strong></span>
+				    </div>
+				  </div>
+				</div>
+				</fieldset>
+			</form>
+        </div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer" >
+          <button type="button" class="btn btn-danger" data-dismiss="modal" style="font-size: 1.6rem;">Close</button>
+          <button type="button" class="btn btn-primary propose" style="font-size: 1.6rem;">Propose !!</button>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+  
+  
+    <div id="modalConfirm" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-body">
+        <p><strong>The proposition Complete!!</strong></p>
+      </div>
+    </div>
+
+  </div>
+</div>
+		
+
+		<!-- Vendor -->
+		<script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+		<script th:src="@{/vendor/jquery.appear/jquery.appear.min.js}"></script>
+		<script th:src="@{/vendor/jquery.easing/jquery.easing.min.js}"></script>
+		<script th:src="@{/vendor/jquery-cookie/jquery-cookie.min.js}"></script>
+		<script th:src="@{/vendor/bootstrap/js/bootstrap.min.js}"></script>
+		<script th:src="@{/vendor/common/common.min.js}"></script>
+		<script th:src="@{/vendor/jquery.validation/jquery.validation.min.js}"></script>
+		<script th:src="@{/vendor/jquery.easy-pie-chart/jquery.easy-pie-chart.min.js}"></script>
+		<script th:src="@{/vendor/jquery.gmap/jquery.gmap.min.js}"></script>
+		<script th:src="@{/vendor/jquery.lazyload/jquery.lazyload.min.js}"></script>
+		<script th:src="@{/vendor/isotope/jquery.isotope.min.js}"></script>
+		<script th:src="@{/vendor/owl.carousel/owl.carousel.min.js}"></script>
+		<script th:src="@{/vendor/magnific-popup/jquery.magnific-popup.min.js}"></script>
+		<script th:src="@{/vendor/vide/vide.min.js}"></script>
+
+		<!-- Theme Base, Components and Settings -->
+		<script th:src="@{/js/theme.js}"></script>
+
+		<!-- Current Page Vendor and Views -->
+		<script th:src="@{/vendor/rs-plugin/js/jquery.themepunch.tools.min.js}"></script>
+		<script th:src="@{/vendor/rs-plugin/js/jquery.themepunch.revolution.min.js}"></script>
+		<script th:src="@{/vendor/circle-flip-slideshow/js/jquery.flipshow.min.js}"></script>
+		<script th:src="@{/js/views/view.home.js}"></script>
+
+		<!-- Theme Custom -->
+		<script th:src="@{/js/custom.js}"></script>
+
+		<!-- Theme Initialization Files -->
+		<script th:src="@{/js/theme.init.js}"></script>
+		<script type="text/javascript">
+			$(document).ready(function() {
+			    
+			    $('#example').dataTable( {
+					  "columnDefs": [
+					    { "orderable": false, "targets": 'vide', }
+					  ]
+					} );
+			} );
+
+			
+		</script>
+		
+		<script type="text/javascript" src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js"></script>
+		<script type="text/javascript" src="https://cdn.datatables.net/1.10.18/js/dataTables.bootstrap4.min.js"></script>
+		<script type="text/javascript" th:src="@{/js/prop.js}"></script>
+	</body>
+</html>

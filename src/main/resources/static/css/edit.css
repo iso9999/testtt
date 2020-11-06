@@ -1,0 +1,57 @@
+input[type=radio] {
+  position: absolute;
+  visibility: hidden;
+  display: none;
+}
+
+.labelRadio {
+  color: black;
+  display: inline-block;
+  cursor: pointer;
+  font-weight: bold;
+  padding: 5px 20px;
+  margin-bottom: 0px;
+      margin-right: -4px;
+}
+
+input[type=radio]:checked + label{
+  color: white;
+  background: #0088cc;
+-webkit-box-shadow: 0px 0px 13px 5px rgba(0,136,204,1);
+-moz-box-shadow: 0px 0px 13px 5px rgba(0,136,204,1);
+box-shadow: 0px 0px 13px 5px rgba(0,136,204,1);
+}
+
+label + input[type=radio] + label {
+  border-left: solid 3px #0088cc;
+}
+.radio-group {
+  border: solid 3px #0088cc;
+  display: inline-block;
+  margin: 20px;
+  border-radius: 10px;
+  overflow: hidden;
+}	
+.labelForme{
+    		width: 15%!important;
+    	}
+    	.textDisc{
+    		width: 60%;
+    	}
+    	.option,.price{
+    		width: 20%;
+    	}
+    	.formElem,.dropdown-display-label{
+    		border-color: cornflowerblue;
+			-webkit-box-shadow: 0px 0px 8px 1px rgba(0,136,204,1);
+			-moz-box-shadow: 0px 0px 8px 1px rgba(0,136,204,1);
+			box-shadow: 0px 0px 8px 1px rgba(0,136,204,1);
+    	}
+    	.input-group-addon{
+    		color: white !important;
+		    background-color: #08c !important;
+		    border: 1px solid #0088cc !important;
+    	}
+    	.form-group{
+    		margin-bottom: 50px !important;
+    	}

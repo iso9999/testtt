@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org"
+	  xmlns:layout="http://www.ultrag.net.nz/thymeleaf/layout"
+	  layout:decorator="layout">
+	<head>
+		<style type="text/css">
+			.img-prop{
+				border: 1px solid #ddd;
+				border-radius: 4px;
+				float: left;
+				margin-right: 5%;    
+			}
+		</style>
+		<!-- Basic -->
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		
+		
+		<title>LBLAN : (:Client Name Here:)</title>
+
+		<meta name="keywords" content="HTML5 Template" />
+		<meta name="description" content="Porto - Responsive HTML5 Template">
+		<meta name="author" content="okler.net">
+		
+		<script th:src="@{/js/sockjs.min.js}" type="text/javascript"></script>
+		<script th:src=@{/js/stomp.min.js} type="text/javascript"></script>
+		<script type="text/javascript" th:src="@{/js/angular.min.js}"></script>
+		<script type="text/javascript" th:src="@{/js/clientNotif.js}"></script>
+
+
+		<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.css">
+		<link href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap4.min.css">
+		
+		<!-- Favicon -->
+		<link rel="shortcut icon" th:href="@{/img/favicon.ico}" type="image/x-icon" />
+		<link rel="apple-touch-icon" th:href="@{/img/apple-touch-icon.png}">
+
+		<!-- Mobile Metas -->
+		<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<!-- Web Fonts  -->
+		<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800%7CShadows+Into+Light" rel="stylesheet" type="text/css">
+
+		<!-- Vendor CSS -->
+		<link rel="stylesheet" th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" >
+		<link rel="stylesheet" th:href="@{/vendor/font-awesome/css/font-awesome.min.css}" >
+		<link rel="stylesheet" th:href="@{/vendor/animate/animate.min.css}">
+		<link rel="stylesheet" th:href="@{/vendor/simple-line-icons/css/simple-line-icons.min.css}">
+		<link rel="stylesheet" th:href="@{/vendor/owl.carousel/assets/owl.carousel.min.css}" >
+		<link rel="stylesheet" th:href="@{/vendor/owl.carousel/assets/owl.theme.default.min.css}">
+		<link rel="stylesheet" th:href="@{/vendor/magnific-popup/magnific-popup.min.css}">
+
+		<!-- Theme CSS -->
+		<link rel="stylesheet" th:href="@{/css/theme.css}">
+		<link rel="stylesheet" th:href="@{/css/theme-elements.css}">
+		<link rel="stylesheet" th:href="@{/css/theme-blog.css}">
+		<link rel="stylesheet" th:href="@{/css/theme-shop.css}">
+
+		<!-- Current Page CSS -->
+		<link rel="stylesheet" th:href="@{/vendor/rs-plugin/css/settings.css}">
+		<link rel="stylesheet" th:href="@{/vendor/rs-plugin/css/layers.css}">
+		<link rel="stylesheet" th:href="@{/vendor/rs-plugin/css/navigation.css}">
+		<link rel="stylesheet" th:href="@{/vendor/circle-flip-slideshow/css/component.css}">
+
+		<!-- Skin CSS -->
+		<link rel="stylesheet" th:href="@{/css/skins/default.css}">
+
+		<!-- Theme Custom CSS -->
+		<link rel="stylesheet" th:href="@{/css/custom.css}">
+
+		<!-- Head Libs -->
+		<script th:src="@{/vendor/modernizr/modernizr.min.js}"></script>
+
+	</head>
+	<body>
+		<div class="body" ng-app="myApp" ng-controller="homeCtrl" th:attr="ng-init='init(\''+${client.idClient}+'\',\''+${client.users.username}+'\');'">
+			<header th:replace="CLIENT/fragments/header :: header"></header>
+			<div role="main" class="main">
+
+				<section class="page-header">
+					<div class="container">
+						<div class="row">
+							<div class="col-md-12">
+								<ul class="breadcrumb">
+									<li><a href="#">Home</a></li>
+									<li class="active">Projects</li>
+								</ul>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-12">
+								<h1>YOUR POJECT</h1>
+							</div>
+						</div>
+					</div>
+				</section>
+
+				<div class="container">
+
+					<div class="row">
+						<div class="col-md-12">
+							<div class="portfolio-title">
+								<div class="row">
+									<div class="col-md-10 center">
+										<h2 class="mb-none"><strong th:text="${poste.titrePoste}"></strong></h2>
+									</div>
+								</div>
+							</div>
+
+							<hr class="tall">
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-md-4">
+
+							<div class="owl-carousel owl-theme" data-plugin-options="{'items': 1, 'margin': 10, 'animateOut': 'fadeOut', 'autoplay': true, 'autoplayTimeout': 3000}">
+								<div>
+									<span class="img-thumbnail">
+										<img alt="" class="img-responsive" th:src="@{/img/project-1.jpg}">
+									</span>
+								</div>
+								<div>
+									<span class="img-thumbnail">
+										<img alt="" class="img-responsive" th:src="@{/img/project-1-2.jpg}">
+									</span>
+								</div>
+							</div>
+
+						</div>
+
+						<div class="col-md-8">
+
+							<div class="portfolio-info">
+								<div class="row">
+									<div class="col-md-12 center">
+										<ul>
+											<li>
+												<i class="fa fa-calendar"></i> <span th:text="${poste.datePoste}"></span>
+											</li>
+											<li>
+												<i class="fa fa-tags"></i> <a href="#" th:each=" c : ${poste.categories}" ><span th:text="${c.libelleCategorie}"></span><span>, </span></a>
+											</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+
+							<h5 class="mt-sm">Project Description</h5>
+							<p class="mt-xlg" th:text="${poste.descreptionPoste}"></p>
+							
+							<h5 class="mt-sm">Price</h5>
+							<p class="mt-xlg" th:text="'between '+${poste.prixMinPoste}+' and '+${poste.prixMaxPoste}+' DH'"><span th:if="${poste.typePeriod} =='Hrs/Week'">/Hr</span></p>
+							
+							<h5 class="mt-sm">Period</h5>
+							<p class="mt-xlg" th:text="'from '+${poste.dureeMinPoste}+' to '+${poste.dureeMaxPoste}+' '+${poste.typePeriod}"></p>
+							
+
+
+							<ul class="portfolio-details">
+								<li>
+									<h5 class="mt-sm mb-xs">Skills</h5>
+
+									<ul class="list list-inline list-icons">
+										<li th:each=" s: ${poste.services}"><i class="fa fa-check-circle"></i> <span th:text="${s.libelleService}"></span></li>
+									</ul>
+								</li>
+								<li>
+									<div th:if="${poste.offreur!=null}">
+										<h5 class="mt-sm mb-xs">Freelancer</h5> <!--if confirmed -->
+										<p th:text="${poste.offreur.nomOffreur}+' '+${poste.offreur.prenomOffreur}"></p> <!--if confirmed -->
+									</div>
+									
+								</li>
+								<li>
+									<h5 class="mt-sm mb-xs">Comments</h5>
+										<table id="example" class="table" style="width:100%;">
+									        <thead>
+									            <tr style="background-color: #0088cc; color: white">
+									                <th>FREELANCER</th>
+									                <th>PERIOD</th>
+									                <th>PRICE</th>
+									            </tr>
+									        </thead>
+									        <tbody>
+									        	<tr th:each="prop : ${propositions}">
+									        		<td>
+									        			<div>
+									        					<a th:href="@{'/CLIENT/fre/'+${prop.pk.offreur.idOffreur}}" >
+									        						<img class="img-prop" th:src="@{${prop.pk.offreur.image.urlImage}}" alt="" height="20%" width="20%">
+									        					</a>
+																
+															<div>
+																<p style="color: #0088cc"><strong><span th:text="${prop.pk.offreur.nomOffreur}"></span> <span th:text="${prop.pk.offreur.prenomOffreur}"></span></strong></p>
+										        				<p>Morocco, <span th:text="${prop.pk.offreur.villeOffreur}"></span></p>
+															</div>
+									        			</div>
+									        		</td>
+									        		
+									        		<td>
+									        			<span th:text="${prop.dureeProposition}"></span>
+									        		</td>
+									        		<td>
+									        			<span th:text="${prop.prix}"></span>DH
+									        		</td>
+									        	</tr>
+									        </tbody>
+									     </table>
+								</li>
+							</ul>
+
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-md-12">
+
+							<hr class="tall">
+
+							<h4 class="mb-md text-uppercase">Related <strong>Work</strong></h4>
+								
+							<div class="row">
+
+								<ul class="portfolio-list">
+									<li class="col-md-3 col-sm-6 col-xs-12" th:each="p : ${postes}">
+										<div class="portfolio-item">
+											<a th:href="@{'/CLIENT/postes/'+${p.idPoste}}">
+												<span class="thumb-info thumb-info-lighten">
+													<span class="thumb-info-wrapper">
+														<img th:src="@{/img/projects/project.jpg}" class="img-responsive" alt="">
+														<span class="thumb-info-title">
+															<span class="thumb-info-inner" th:text="${p.titrePoste}"></span>>
+														</span>
+														<span class="thumb-info-action">
+															<span class="thumb-info-action-icon"><i class="fa fa-link"></i></span>
+														</span>
+													</span>
+												</span>
+											</a>
+										</div>
+									</li>
+								</ul>
+
+							</div>
+						</div>
+					</div>
+
+				</div>
+
+			</div>
+			<footer th:replace="CLIENT/fragments/footer :: footer"></footer>
+		</div>
+		
+		
+
+		<!-- Vendor -->
+		
+		<script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+		<script th:src="@{/vendor/jquery.appear/jquery.appear.min.js}"></script>
+		<script th:src="@{/vendor/jquery.easing/jquery.easing.min.js}"></script>
+		<script th:src="@{/vendor/jquery-cookie/jquery-cookie.min.js}"></script>
+		<script th:src="@{/vendor/bootstrap/js/bootstrap.min.js}"></script>
+		<script th:src="@{/vendor/common/common.min.js}"></script>
+		<script th:src="@{/vendor/jquery.validation/jquery.validation.min.js}"></script>
+		<script th:src="@{/vendor/jquery.easy-pie-chart/jquery.easy-pie-chart.min.js}"></script>
+		<script th:src="@{/vendor/jquery.gmap/jquery.gmap.min.js}"></script>
+		<script th:src="@{/vendor/jquery.lazyload/jquery.lazyload.min.js}"></script>
+		<script th:src="@{/vendor/isotope/jquery.isotope.min.js}"></script>
+		<script th:src="@{/vendor/owl.carousel/owl.carousel.min.js}"></script>
+		<script th:src="@{/vendor/magnific-popup/jquery.magnific-popup.min.js}"></script>
+		<script th:src="@{/vendor/vide/vide.min.js}"></script>
+		
+		
+		<script type="text/javascript">
+			$(document).ready(function() {
+			    $('#example').DataTable();
+			} );
+		</script>
+		<!-- Theme Base, Components and Settings -->
+		<script th:src="@{/js/theme.js}"></script>
+
+		<!-- Current Page Vendor and Views -->
+		<script th:src="@{/vendor/rs-plugin/js/jquery.themepunch.tools.min.js}"></script>
+		<script th:src="@{/vendor/rs-plugin/js/jquery.themepunch.revolution.min.js}"></script>
+		<script th:src="@{/vendor/circle-flip-slideshow/js/jquery.flipshow.min.js}"></script>
+		<script th:src="@{/js/views/view.home.js}"></script>
+
+		<!-- Theme Custom -->
+		<script th:src="@{/js/custom.js}"></script>
+
+		<!-- Theme Initialization Files -->
+		<script th:src="@{/js/theme.init.js}"></script>
+		
+		<script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
+		<script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+		<script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap4.min.js"></script>
+
+		<!-- Google Analytics: Change UA-XXX XX-Xto be your site's ID. Go to http://www.google.com/analytics/ for more information.
+		<script>
+			(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+			(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+			m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+			})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+			ga('create', 'UA-12345678-1', 'auto');
+			ga('send', 'pageview');
+		</script>
+		 -->
+
+	</body>
+</html>

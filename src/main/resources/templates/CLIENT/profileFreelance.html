@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org"
+	  xmlns:layout="http://www.ultrag.net.nz/thymeleaf/layout"
+	  layout:decorator="layout">
+	<head>
+	
+	
+		<link rel="stylesheet" th:href="@{/css/SimpleStarRating.css}">
+		<style type="text/css">
+			.img-prop{
+				border: 1px solid #ddd;
+				border-radius: 4px;
+				float: left;
+				margin-right: 5%;    
+			}
+			.rating-stars ul {
+				  list-style-type:none;
+				  padding:0;
+				  
+				  -moz-user-select:none;
+				  -webkit-user-select:none;
+				}
+			.rating-stars ul > li.star {
+				  display:inline-block;
+				  
+				}
+			.rating-stars ul > li.star > i.fa {
+				  font-size:1.5em; /* Change the size of the stars */
+				  color:#ccc; /* Color on idle state */
+				}
+			.rating-stars ul > li.star.selected > i.fa {
+				  color:#FF912C;
+				}
+				
+				.rating .star::after {
+			    display: inline-block;
+			    position: absolute;
+			    content: '★';
+			    top: 0px;
+			    left: 0;
+			    opacity: 0;
+			    width: 0;
+			    height: 0;
+			    transition: all 0.1s linear;
+			    overflow: unset;
+			}
+
+            .golden {
+                color: #ee0;
+                background-color: #444;
+            }
+
+            .big-red {
+                color: #f11;
+                font-size: 40px;
+            }
+		</style>
+		
+		<script th:src="@{/js/sockjs.min.js}" type="text/javascript"></script>
+		<script th:src=@{/js/stomp.min.js} type="text/javascript"></script>
+		<script type="text/javascript" th:src="@{/js/angular.min.js}"></script>
+		<script type="text/javascript" th:src="@{/js/index.js}"></script>
+		
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+		<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.css">
+		<link href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap4.min.css">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+		<!-- Basic -->
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+		<title>LBLAN : (:Client Name Here:)</title>
+
+		<meta name="keywords" content="HTML5 Template" />
+		<meta name="description" content="Porto - Responsive HTML5 Template">
+		<meta name="author" content="okler.net">
+
+		<!-- Favicon -->
+		<link rel="shortcut icon" th:href="@{/img/favicon.ico}" type="image/x-icon" />
+		<link rel="apple-touch-icon" th:href="@{/img/apple-touch-icon.png}">
+
+		<!-- Mobile Metas -->
+		<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<!-- Web Fonts  -->
+		<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800%7CShadows+Into+Light" rel="stylesheet" type="text/css">
+
+		<!-- Vendor CSS -->
+		<link rel="stylesheet" th:href="@{/vendor/bootstrap/css/bootstrap.min.css}">
+		<link rel="stylesheet" th:href="@{/vendor/font-awesome/css/font-awesome.min.css}">
+		<link rel="stylesheet" th:href="@{/vendor/animate/animate.min.css}">
+		<link rel="stylesheet" th:href="@{/vendor/simple-line-icons/css/simple-line-icons.min.css}">
+		<link rel="stylesheet" th:href="@{/vendor/owl.carousel/assets/owl.carousel.min.css}">
+		<link rel="stylesheet" th:href="@{/vendor/owl.carousel/assets/owl.theme.default.min.css}">
+		<link rel="stylesheet" th:href="@{/vendor/magnific-popup/magnific-popup.min.css}">
+
+		<!-- Theme CSS -->
+		<link rel="stylesheet" th:href="@{/css/theme.css}">
+		<link rel="stylesheet" th:href="@{/css/theme-elements.css}">
+		<link rel="stylesheet" th:href="@{/css/theme-blog.css}">
+		<link rel="stylesheet" th:href="@{/css/theme-shop.css}">
+
+		<!-- Current Page CSS -->
+		<link rel="stylesheet" th:href="@{/vendor/rs-plugin/css/settings.css}">
+		<link rel="stylesheet" th:href="@{/vendor/rs-plugin/css/layers.css}">
+		<link rel="stylesheet" th:href="@{/vendor/rs-plugin/css/navigation.css}">
+		<link rel="stylesheet" th:href="@{/vendor/circle-flip-slideshow/css/component.css}">
+
+		<!-- Skin CSS -->
+		<link rel="stylesheet" th:href="@{/css/skins/default.css}">
+
+		<!-- Theme Custom CSS -->
+		<link rel="stylesheet" th:href="@{/css/custom.css}">
+
+		<!-- Head Libs -->
+		<script th:src="@{/vendor/modernizr/modernizr.min.js}"></script>
+
+	</head>
+	<body ng-app="myApp" ng-controller="chatCtrl" th:attr="ng-init='init(\''+${client.idClient}+'\',\''+${client.users.username}+'\',\''+${offreur.users.username}+'\');'">
+		<div class="body" ng-controller="homeCtrl" th:attr="ng-init='init(\''+${client.idClient}+'\',\''+${client.users.username}+'\');'">
+			<header th:replace="CLIENT/fragments/header :: header"></header>
+			<div role="main" class="main">
+				<section class="page-header">
+					<div class="container">
+						<div class="row">
+							<div class="col-md-12">
+								<ul class="breadcrumb">
+									<li><a href="#">Home</a></li>
+									<li class="active">Profile</li>
+								</ul>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-12">
+								<h1>Profile</h1>
+							</div>
+						</div>
+					</div>
+				</section>
+				<div class="container">
+					<div class="row">
+						<div class="col-md-4">
+								<div>
+									<span class="img-thumbnail">
+										<img alt="" height="300" class="img-responsive" th:src="@{${offreur.image.urlImage}}">
+										<div style="text-align: center">@<span th:text="${offreur.users.username}"></span></div>
+										<input type="hidden" th:value="${offreur.idOffreur}" class="idOffreur">
+									</span>
+								</div>
+						</div>
+						<div class="col-md-8">
+							<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal" style="float:right;"><strong>HIRE ME</strong></button>
+							<a  class="btn btn-info btn-lg" th:href="@{/CLIENT/chatPage(user=${offreur.users.username})}"  style="float:right; margin-right: 2%;"><strong>Chat With Me</strong></a>
+							
+
+							<h2 class="mb-none"><strong><span th:text="${offreur.nomOffreur}"></span> <span th:text="${offreur.prenomOffreur}"></span></strong></h2>
+							<h4 class="heading-primary" th:text="${offreur.titreOffreur}"></h4>
+							<h4 class="heading-primary">Morocco, <span th:text="${offreur.villeOffreur}"></span></h4>
+
+							<hr class="solid">
+
+							<p th:text="${offreur.summary}"></p><br/>
+							
+							<div class='rating-stars'>
+								<ul id='stars'>
+									<li class='star selected' th:each="i : ${#numbers.sequence( 1, moy/1)}" th:if="${moy}>0">
+										<i class='fa fa-star fa-fw'></i>
+									</li>
+									<li class='star' title='Fair' th:if="${moy}<5" th:each="i : ${#numbers.sequence( moy, 4/1)}">
+										<i class='fa fa-star fa-fw'></i>
+									</li>
+								</ul>
+							</div> 
+							<p><span th:text="${moy}" style="background-color: orangered;color: white;font-weight: bold;padding: 0.5%;border-radius: 4px;"></span> average based on <span th:text="${total}"></span> reviews.</p>
+							<ul class="list list-icons">
+								<li style="line-height: 19px;"><i class="fa fa-check"></i> <strong style="float: left; margin-right: 10px">5 stars:  </strong>
+									<div class="progress" style="overflow: hidden;">
+									    <div class="progress-bar-danger progress-bar" th:style="'width:'+${star5}+'%;'"><span th:text="${star5}+'%'"></span></div>
+									</div>
+								</li>
+								<li style="line-height: 19px;"><i class="fa fa-check"></i> <strong style="float: left; margin-right: 10px">4 stars:  </strong>
+									<div class="progress" style="overflow: hidden;">
+									    <div class="progress-bar-success progress-bar" th:style="'width:'+${star4}+'%;'"><span th:text="${star4}+'%'"></span></div>
+									</div>
+								</li>
+								<li style="line-height: 19px;"><i class="fa fa-check"></i> <strong style="float: left; margin-right: 10px">3 stars:  </strong>
+									<div class="progress" style="overflow: hidden;">
+									    <div class="progress-bar-info progress-bar" th:style="'width:'+${star3}+'%;'"><span th:text="${star3}+'%'"></span></div>
+									</div>
+								</li>
+								<li style="line-height: 19px;"><i class="fa fa-check"></i> <strong style="float: left; margin-right: 10px">2 stars:  </strong>
+									<div class="progress" style="overflow: hidden;">
+									    <div class="progress-bar-warning progress-bar" th:style="'width:'+${star2}+'%;'"><span th:text="${star2}+'%'"></span></div>
+									</div>
+								</li>
+								<li style="line-height: 19px;"><i class="fa fa-check"></i> <strong style="float: left; margin-right: 10px">1 star:  </strong>
+									<div class="progress" style="overflow: hidden;">
+									    <div class="progress-bar-danger progress-bar" th:style="'width:'+${star1}+'%;'"><span th:text="${star1}+'%'"></span></div>
+									</div>
+								</li>
+								
+							</ul>
+
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<hr>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="card bg-light mb-3" style="float: right; color: black; float: right; width: 21%; text-align: left;font-size: 15pt;">
+							  <div class="card-header" style="font-weight: bold; font-size: 19pt">SKILLS</div>
+							  <div class="card-body">
+							  	<ul class="list-group list-group-flush">
+								    <li class="list-group-item" th:each="s : ${skills}"><span th:text="${s.pk.service.libelleService}"></span></li>
+								</ul>
+							  </div>
+							</div>
+							<table id="example" class="table" style="width:70%;">
+								 <thead>
+									<tr>
+									   <th>CLIENT</th>
+									   <th>COMMENT</th>
+									   <th>RATE</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="a : ${avis}">
+									   <td style="width: 50%">
+									     <div>
+									        <a href="#" >
+									        	<img class="img-prop" th:src="@{${a.pk.client.image.urlImage}}" alt="" height="20%" width="20%">
+									        </a>
+																
+											<div>
+												<p style="color: #0088cc"><strong><span th:text="${a.pk.client.nomClient}"></span> <span th:text="${a.pk.client.prenomClient}"></span></strong></p>
+											</div>
+									     </div>
+									    </td>
+									        		
+									    <td>
+									       <span th:text="${a.commentaireAvis}"></span>
+									    </td>
+									    <td>
+									       <div class='rating-stars'>
+										    <ul id='stars'>
+										      <li class='star selected' th:each="i : ${#numbers.sequence( 1, a.noteAvis/1)}">
+										        <i class='fa fa-star fa-fw'></i>
+										      </li>
+										      <li class='star' title='Fair' th:if="${a.noteAvis}<5" th:each="i : ${#numbers.sequence( a.noteAvis, 4/1)}">
+										        <i class='fa fa-star fa-fw'></i>
+										      </li>
+										    </ul>
+										  </div> 			
+									    </td>
+									</tr>
+								</tbody>
+								<tfoot th:if="!${test}">
+									<tr>
+										<td colspan="3">
+											<button type="button" class="btn btn-primary " data-toggle="modal" data-target="#avisModal">What u think about this guy ?</button>
+										</td>
+									</tr>
+								</tfoot>
+							</table>
+							
+					</div>
+				</div>
+				<div class="container">
+					<div class="row">
+						<div class="col-md-12">
+
+							<h4 class="mt-xlg mb-none text-uppercase">My <strong>Project</strong></h4>
+
+							<div class="row">
+
+								<ul class="portfolio-list">
+									<li class="col-md-3 col-sm-6 col-xs-12" th:each="p : ${postes}">
+										<div class="portfolio-item">
+											<a th:href="@{'/CLIENT/postes/'+${p.idPoste}}">
+												<span class="thumb-info thumb-info-lighten">
+													<span class="thumb-info-wrapper">
+														<img th:src="@{/img/projects/project.jpg}" class="img-responsive" alt="">
+														<span class="thumb-info-title">
+															<span class="thumb-info-inner" th:text="${p.titrePoste}"></span>
+														</span>
+														<span class="thumb-info-action">
+															<span class="thumb-info-action-icon"><i class="fa fa-link"></i></span>
+														</span>
+													</span>
+												</span>
+											</a>
+										</div>
+									</li>
+									
+								</ul>
+
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+			<footer th:replace="CLIENT/fragments/footer :: footer"></footer>
+		</div>
+
+		<!-- Vendor -->
+		<script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+		<script th:src="@{/vendor/jquery.appear/jquery.appear.min.js}"></script>
+		<script th:src="@{/vendor/jquery.easing/jquery.easing.min.js}"></script>
+		<script th:src="@{/vendor/jquery-cookie/jquery-cookie.min.js}"></script>
+		<script th:src="@{/vendor/bootstrap/js/bootstrap.min.js}"></script>
+		<script th:src="@{/vendor/common/common.min.js}"></script>
+		<script th:src="@{/vendor/jquery.validation/jquery.validation.min.js}"></script>
+		<script th:src="@{/vendor/jquery.easy-pie-chart/jquery.easy-pie-chart.min.js}"></script>
+		<script th:src="@{/vendor/jquery.gmap/jquery.gmap.min.js}"></script>
+		<script th:src="@{/vendor/jquery.lazyload/jquery.lazyload.min.js}"></script>
+		<script th:src="@{/vendor/isotope/jquery.isotope.min.js}"></script>
+		<script th:src="@{/vendor/owl.carousel/owl.carousel.min.js}"></script>
+		<script th:src="@{/vendor/magnific-popup/jquery.magnific-popup.min.js}"></script>
+		<script th:src="@{/vendor/vide/vide.min.js}"></script>
+
+		<!-- Theme Base, Components and Settings -->
+		<script th:src="@{/js/theme.js}"></script>
+
+		<!-- Current Page Vendor and Views -->
+		<script th:src="@{/vendor/rs-plugin/js/jquery.themepunch.tools.min.js}"></script>
+		<script th:src="@{/vendor/rs-plugin/js/jquery.themepunch.revolution.min.js}"></script>
+		<script th:src="@{/vendor/circle-flip-slideshow/js/jquery.flipshow.min.js}"></script>
+		<script th:src="@{/js/views/view.home.js}"></script>
+
+		<!-- Theme Custom -->
+		<script th:src="@{/js/custom.js}"></script>
+
+		<!-- Theme Initialization Files -->
+		<script th:src="@{/js/theme.init.js}"></script>
+		
+		<script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
+		<script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+		<script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap4.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		
+		<script th:src="@{/js/SimpleStarRating.js}"></script>
+		
+		<script type="text/javascript">
+			$(document).ready(function() {
+			    $('#example').DataTable();
+			    $(".msg").val("Hi , I noticed your profile and would like to offer you my project. We can discuss any details over chat.");
+		  		$(".optValue").text($("#selectbasic option:selected").val());
+		    	$("#selectbasic").on("change",function(){
+		    		$(".optValue").text($("#selectbasic option:selected").val());
+		   		 });
+			} );
+			
+		</script>
+									 <!-- Modal -->
+		<div class="modal fade" id="myModal" role="dialog" >
+			<div class="modal-dialog">
+							    
+							      <!-- Modal content-->
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<h4 class="modal-title" style="position: absolute;">Offer your project to <span th:text="${offreur.nomOffreur}"></span> <span th:text="${offreur.prenomOffreur}"></span></h4>
+					</div>
+				<div class="modal-body">
+					<h4>Send a Private Message</h4>
+					<form class="form-horizontal">
+						<fieldset>
+							
+										<!-- Text input-->
+							<div class="form-group">
+								<div class="col-md-12">
+									<textarea id="textinput" required="required" name="msg" type="text" class="form-control input-md msg" style="resize: none">
+									</textarea>
+								 </div>
+							</div>
+							
+										<!-- Prepended text-->
+							<div class="form-group">
+								<label class="col-md-4 control-label" style="text-align: left; color: black; font-weight: bold">Budget</label>
+							</div>
+							<div class="form-group">
+								<div class="col-md-4" style="width: 30%; float: left;">
+									<select id="selectbasic" name="selectbasic" class="form-control" style="height: auto;">
+										<option value="Hrs/Week">Per Hour</option>
+										<option value="Days" selected="selected">Fixed Price</option>
+									</select>
+								</div>
+							<div class="col-md-4" style="width: 30%; float: right; margin-left: 5%; margin-right: auto;">
+								<div class="input-group">
+									<span class="input-group-addon">DH</span>
+									<input id="prependedtext" name="price" class="form-control price" type="number" required="required">
+								</div>
+							</div>
+							<div class="col-md-4" style="width: 30%; float: right;">
+								<div class="input-group">
+									<input id="appendedtext" name="period" class="form-control period" type="number" required="required">
+									<span class="input-group-addon optValue"></span>
+								</div>
+							</div>
+						</div>
+						<div class="form-group" style=" float: right;">
+							<div class="col-md-4">
+								<a href="#" class="btn btn-primary btn-large hireNow"><strong>Hire Now!</strong></a>
+							</div>
+						</div>
+					</fieldset>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default closeModal" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+    </div>
+  </div>
+  <div id="modalConfirm" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-body">
+        <p><strong>the Message has been send!!</strong></p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+ <div class="modal" id="avisModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Review</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        
+        <!-- Modal body -->
+        <div class="modal-body">
+          <form>
+		  <fieldset>
+             
+             <div class="form-group row">
+			  <label class="col-md-4 control-label" for="textinput" style="text-align: right;">Your Comment: </label>  
+			  <div class="col-md-7">
+			  	<textarea id="textinput" required="required" name="msg" type="text" class="form-control input-md cmt" style="resize: none; font-size: 1.6rem;" placeholder="Leave a comment please ??"></textarea>
+			  </div>
+			</div>
+			 <div class="form-group row">
+			  <label class="col-md-4 control-label" for="textinput" style="text-align: right;">Rank: </label>  
+			  <div class="col-md-7">
+				<span class="rating big-red" data-default-rating="0"></span>
+			  </div>
+			</div>
+		  </fieldset>
+		</form>
+        </div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary bnt-avis" >Save your Avis</button>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+	</body>
+</html>

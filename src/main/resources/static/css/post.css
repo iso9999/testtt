@@ -1,0 +1,55 @@
+body{
+    		font-size: 1.6rem;
+    	}
+    	.tableInfo{
+    		margin-bottom: 0px;
+    		text-align: center;
+    	}
+    	.tableInfo>tbody>tr>td{
+    		border-top: none;
+    		border-right: 1px solid #ddd;
+    	}
+    	table tr td:last-child {
+		 	border-right: 0;
+		} 
+		.containerTable{
+			-webkit-box-shadow: 0px 0px 13px 5px rgba(184,184,184,1);
+			-moz-box-shadow: 0px 0px 13px 5px rgba(184,184,184,1);
+			box-shadow: 0px 0px 13px 5px rgba(184,184,184,1);
+			margin-top: 5%;
+			margin-bottom: 5%;
+			padding: 20px;
+		}
+		
+		.table>thead:first-child>tr>th{
+			text-align: center;
+		}
+		div.image>img{
+			height: 145px;
+			width: 130px;
+			border-radius: 10px;
+    		border: solid 6px gainsboro;
+
+		}
+
+		div.image{
+			 /*margin-right: 4%;*/
+		}
+		.skills,.descrip{
+			padding-left: 30px;
+		}
+		#example_wrapper>.row:first-child,#example_wrapper>.row:last-child{
+			display: none;
+		}
+
+		.containerTableBiding{
+			-webkit-box-shadow: 0px 0px 13px 5px rgba(184,184,184,1);
+			-moz-box-shadow: 0px 0px 13px 5px rgba(184,184,184,1);
+			box-shadow: 0px 0px 13px 5px rgba(184,184,184,1);
+			padding: 0px;
+		}
+
+
+		table.dataTable thead .sorting:before, table.dataTable thead .sorting:after, table.dataTable thead .sorting_asc:before, table.dataTable thead .sorting_asc:after, table.dataTable thead .sorting_desc:before, table.dataTable thead .sorting_desc:after, table.dataTable thead .sorting_asc_disabled:before, table.dataTable thead .sorting_asc_disabled:after, table.dataTable thead .sorting_desc_disabled:before, table.dataTable thead .sorting_desc_disabled:after{
+			bottom: 0.5em;
+		}
